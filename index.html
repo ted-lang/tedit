@@ -1,15 +1,34 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <title>Hello World!</title>
+    <meta charset="UTF-8" />
+    <title>Tedit -- IDE for Ted Programming Language</title>
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src *">
+    <style>
+      #container {
+        width: 500px;
+        height: 300px;
+        border: 1px solid #ccc;
+      }
+    </style>
   </head>
+
   <body>
-    <h1>Hello World!</h1>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
+    <h1>Tedit -- IDE for Ted Programming Language</h1>
+    Note: Since Electron without nodeIntegration is very similar to a browser, you can have a look
+    at all the other `browser-` samples, as they should work just fine. <br /><br />
+    <div id="container"></div>
   </body>
+
+  <script src="node_modules/monaco-editor/min/vs/loader.js"></script>
+  <script>
+    require.config({ paths: { vs: 'node_modules/monaco-editor/min/vs' } });
+
+    require(['vs/editor/editor.main'], function () {
+      const editor = monaco.editor.create(document.getElementById('container'), {
+        value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
+        language: 'javascript'
+      });
+    });
+  </script>
 </html>
